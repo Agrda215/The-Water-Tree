@@ -56,6 +56,26 @@ addLayer("W", {
     		description: "at triple generation this know :)",
     		cost: new Decimal(480),
         },
+		22: {
+			title: "Ever gain",
+    		description: "x10 gain this game go fast!",
+    		cost: new Decimal(4000),
+        },
+		23: {
+			title: "Boost II",
+    		description: "x3 gain and unlocked new another buyable.",
+    		cost: new Decimal(1.2e5),
+        },
+		24: {
+			title: "Ever gain II",
+    		description: "x20 gain this game go fast!",
+    		cost: new Decimal(4.8e5),
+        },
+		25: {
+			title: "Boost Buyable",
+    		description: "at triple generation this know :)",
+    		cost: new Decimal(9e6),
+        },
     },
 	buyables: {
         11: {
@@ -82,6 +102,34 @@ addLayer("W", {
                 let base2 = x
                 if(hasUpgrade('W', 21)) base2 = base2.mul(3)
                 let expo = new Decimal(0.6)
+                let eff = base1.pow(Decimal.pow(base2, expo))
+                return eff
+            },
+        },
+		12: {
+            title: "Point Buyable II",
+            unlocked() {
+                return hasUpgrade('W', 23)
+            },
+            cost(x) {
+                return new Decimal(10000).mul(Decimal.pow(2, x)).mul(Decimal.pow(1.25, Decimal.pow(x, 1.1))).floor()
+            },
+            display() {
+                return "Cost: " + format(tmp[this.layer].buyables[this.id].cost) + " waters" + "<br>Bought: " + getBuyableAmount(this.layer, this.id) + "<br>Effect: Boost point gain by x" + format(buyableEffect(this.layer, this.id))
+            },
+            canAfford() {
+                return player[this.layer].points.gte(this.cost())
+            },
+            buy() {
+                let cost = new Decimal (1)
+                player[this.layer].points = player[this.layer].points.sub(this.cost().mul(cost))
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            effect(x) {
+                let base1 = new Decimal(2.5)
+                let base2 = x
+                if(hasUpgrade('W', 25)) base2 = base2.mul(4)
+                let expo = new Decimal(1.15)
                 let eff = base1.pow(Decimal.pow(base2, expo))
                 return eff
             },
