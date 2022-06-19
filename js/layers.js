@@ -31,6 +31,16 @@ addLayer("W", {
     		description: "start of double gain.",
     		cost: new Decimal(5),
         },
+		12: {
+			title: "Water Production",
+    		description: "while trping",
+    		cost: new Decimal(15),
+        },
+		13: {
+			title: "Boost",
+    		description: "boost of 169% and unlock new buyable.",
+    		cost: new Decimal(80),
+        },
     },
 })
 
