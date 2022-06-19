@@ -41,6 +41,51 @@ addLayer("W", {
     		description: "boost of 169% and unlock new buyable.",
     		cost: new Decimal(80),
         },
+		14: {
+			title: "Water Production",
+    		description: "while trping",
+    		cost: new Decimal(120),
+        },
+		15: {
+			title: "Boost",
+    		description: "boost of 123%",
+    		cost: new Decimal(365),
+        },
+		21: {
+			title: "Boost Buyable",
+    		description: "at triple generation this know :)",
+    		cost: new Decimal(480),
+        },
+    },
+	buyables: {
+        11: {
+            title: "Point Buyable",
+            unlocked() {
+                return hasUpgrade('W', 13)
+            },
+            cost(x) {
+                return new Decimal(20).mul(Decimal.pow(2, x)).mul(Decimal.pow(1.25, Decimal.pow(x, 1.1))).floor()
+            },
+            display() {
+                return "Cost: " + format(tmp[this.layer].buyables[this.id].cost) + " waters" + "<br>Bought: " + getBuyableAmount(this.layer, this.id) + "<br>Effect: Boost point gain by x" + format(buyableEffect(this.layer, this.id))
+            },
+            canAfford() {
+                return player[this.layer].points.gte(this.cost())
+            },
+            buy() {
+                let cost = new Decimal (1)
+                player[this.layer].points = player[this.layer].points.sub(this.cost().mul(cost))
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            effect(x) {
+                let base1 = new Decimal(2.5)
+                let base2 = x
+                if(hasUpgrade('W', 21)) base2 = base2.mul(3)
+                let expo = new Decimal(0.6)
+                let eff = base1.pow(Decimal.pow(base2, expo))
+                return eff
+            },
+        },
     },
 })
 
