@@ -28,7 +28,7 @@ addLayer("W", {
 	upgrades: {
 		11: {
 			title: "Water Production",
-    		description: "start of double gain.,
+    		description: "start of double gain.",
     		cost: new Decimal(5),
         },
     },
